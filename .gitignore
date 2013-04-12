@@ -1,0 +1,25 @@
+####
+# Xcode build files
+DerivedData/
+build/
+
+####
+# Xcode temporary files that should never be committed
+*~.nib
+
+#####
+# OS X temporary files that should never be committed
+.DS_Store
+*.swp
+*.lock
+profile
+ 
+#####
+# Xcode settings
+*.mode1
+*.mode1v3
+*.mode2v3
+*.perspective
+*.perspectivev3
+*.pbxuser
+xcuserdata
