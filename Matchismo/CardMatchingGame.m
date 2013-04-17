@@ -9,10 +9,9 @@
 #import "CardMatchingGame.h"
 
 @interface CardMatchingGame ()
-@property (nonatomic, strong) NSMutableArray *cards;
 @property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, readwrite) NSString *status;
-
+@property (nonatomic) NSMutableArray *cards;
 @property (nonatomic) NSInteger gameMode;
 @end
 
@@ -59,11 +58,11 @@
 
 -(void)flipCardAtIndex:(NSUInteger)index
 {
-    if (self.gameMode == 2) {
-        Card *card = [self cardAtIndex:index];
-        if (!card.isUnplayable) {
-            if (!card.isFaceUp) {
-                self.status = [NSString stringWithFormat:@"Flipped up %@", card.contents];
+    Card *card = [self cardAtIndex:index];
+    if (!card.isUnplayable) {
+        if (!card.isFaceUp) {
+            self.status = [NSString stringWithFormat:@"Flipped up %@", card.contents];
+            if (self.gameMode == 2) {
                 for (Card *otherCard in self.cards) {
                     if (otherCard.isFaceUp && !otherCard.isUnplayable) {
                         NSUInteger matchScore = [card match:@[otherCard]];
@@ -79,15 +78,7 @@
                         }
                     }
                 }
-                self.score -= FLIP_SCORE;
-            }
-            card.faceUp = !card.isFaceUp;
-        }
-    } else if (self.gameMode == 3) {
-        Card *card = [self cardAtIndex:index];
-        if (!card.isUnplayable) {
-            if (!card.isFaceUp) {
-                self.status = [NSString stringWithFormat:@"Flipped up %@", card.contents];
+            } else if (self.gameMode == 3) {
                 for (Card *otherCard1 in self.cards) {
                     if (otherCard1.isFaceUp && !otherCard1.isUnplayable) {
                         for (Card *otherCard2 in self.cards) {
@@ -106,16 +97,15 @@
                                     self.status = [NSString stringWithFormat:@"%@, %@ and %@ don't match! %d points penalty", card.contents, otherCard1.contents, otherCard2.contents, MISMATCH_PENALTY];
                                 }
                             }
-
+                            
                         }
                     }
                 }
-                self.score -= FLIP_SCORE;
             }
-            card.faceUp = !card.isFaceUp;
+            self.score -= FLIP_SCORE;
         }
+        card.faceUp = !card.isFaceUp;
     }
-
 }
 
 @end

@@ -11,15 +11,15 @@
 #import "CardMatchingGame.h"
 
 @interface CardGameViewController ()
-@property (nonatomic, weak) IBOutlet UILabel *flipLabel;
+@property (weak, nonatomic) IBOutlet UILabel *flipLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (nonatomic) NSInteger flipCount;
-@property (nonatomic, strong) CardMatchingGame *game;
-@property (nonatomic, strong) IBOutletCollection(UIButton) NSArray *cardButtons;
+@property (nonatomic) CardMatchingGame *game;
+@property (nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UIButton *dealButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSegmentedControl;
-@property (strong, nonatomic) NSMutableArray *gameProgress;
+@property (nonatomic) NSMutableArray *gameProgress;
 @property (weak, nonatomic) IBOutlet UISlider *gameProgressSlider;
 @end
 

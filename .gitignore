@@ -1,4 +1,8 @@
 ####
+# Project specific
+Design/
+
+####
 # Xcode build files
 DerivedData/
 build/
@@ -22,4 +26,5 @@ profile
 *.perspective
 *.perspectivev3
 *.pbxuser
+*.xcuserstate
 xcuserdata
