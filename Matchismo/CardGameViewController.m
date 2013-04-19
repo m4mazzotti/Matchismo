@@ -52,7 +52,6 @@
 - (IBAction)dealButtonPressed:(UIButton *)sender
 {
     self.flipCount = 0;
-    self.scoreLabel.text = @"Score: 0";
     
     self.gameProgressSlider.maximumValue = 0;
     

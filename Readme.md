@@ -3,3 +3,7 @@
 #### Assignment #1: Matchismo
 * ~~Required Tasks~~
 * ~~Extra Credit~~
+
+#### Assignment #2: Set
+* Required Tasks
+* Extra Credit
