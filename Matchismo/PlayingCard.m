@@ -11,26 +11,17 @@
 @implementation PlayingCard
 @synthesize suit = _suit;
 
--(int)match:(NSArray *)otherCards
+- (int)match:(NSArray *)otherCards
 {
     NSUInteger score = 0;
     
-    for(PlayingCard *card in otherCards)
-    {
-        if ([card.suit isEqualToString:self.suit]) {
-            score += 2;
-        } else if (card.rank == self.rank) {
-            score += 4;
+    if ([otherCards count] == 1) {
+        PlayingCard *otherCard = [otherCards lastObject];
+        if ([otherCard.suit isEqualToString:self.suit]) {
+            score = 1;
+        } else if (otherCard.rank == self.rank) {
+            score = 4;
         }
-    }
-    
-    NSInteger otherCardsCount = [otherCards count];
-    if(otherCardsCount > 1)
-    {
-        NSRange range;
-        range.location = 1;
-        range.length = otherCardsCount - 1;
-        score += [otherCards[0] match:[otherCards subarrayWithRange:range]];
     }
     
     return score;

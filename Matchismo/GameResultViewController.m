@@ -7,32 +7,50 @@
 //
 
 #import "GameResultViewController.h"
+#import "GameResult.h"
 
 @interface GameResultViewController ()
-
+@property (weak, nonatomic) IBOutlet UITextView *display;
+@property (nonatomic) NSArray *allGameResults;
 @end
 
 @implementation GameResultViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (void)updateUI
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
+    NSString *displayText = @"";
+    
+    for (GameResult *result in self.allGameResults) {
+        displayText = [displayText stringByAppendingFormat:@"Score: %d (%@, %gs)\n", result.score, [NSDateFormatter localizedStringFromDate:result.end dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle], round(result.duration)];
     }
-    return self;
+    
+    self.display.text = displayText;
 }
 
-- (void)viewDidLoad
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    [super viewWillAppear:animated];
+    
+    self.allGameResults = [GameResult allGameResults];
+    [self updateUI];
 }
 
-- (void)didReceiveMemoryWarning
+- (IBAction)sortByDate
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.allGameResults = [self.allGameResults sortedArrayUsingSelector:@selector(compareDate:)];
+    [self updateUI];
+}
+
+- (IBAction)sortByScore
+{
+    self.allGameResults = [self.allGameResults sortedArrayUsingSelector:@selector(compareScore:)];
+    [self updateUI];
+}
+
+- (IBAction)sortByDuration
+{
+    self.allGameResults = [self.allGameResults sortedArrayUsingSelector:@selector(compareDuration:)];
+    [self updateUI];
 }
 
 @end

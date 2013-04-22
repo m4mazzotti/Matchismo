@@ -10,4 +10,15 @@
 
 @interface GameResult : NSObject
 
+@property (readonly, nonatomic) NSDate *start;
+@property (readonly, nonatomic) NSDate *end;
+@property (readonly, nonatomic) NSTimeInterval duration;
+@property (nonatomic) NSInteger score;
+
++ (NSArray *)allGameResults;
+
+- (NSComparisonResult)compareDate:(GameResult *)aGameResuts;
+- (NSComparisonResult)compareScore:(GameResult *)aGameResuts;
+- (NSComparisonResult)compareDuration:(GameResult *)aGameResuts;
+
 @end

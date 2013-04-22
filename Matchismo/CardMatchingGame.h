@@ -10,7 +10,7 @@
 #import "Deck.h"
 
 @interface CardMatchingGame : NSObject
--(id)initWithCardCount:(NSUInteger)cardCount usingDeck:(Deck *)deck andGameMode:(NSInteger)gameMode;
+-(id)initWithCardCount:(NSUInteger)cardCount usingDeck:(Deck *)deck;
 -(void)flipCardAtIndex:(NSUInteger)index;
 -(Card *)cardAtIndex:(NSUInteger)index;
 
