@@ -95,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				55E175A316C5C329009323DA /* Matchismo */,
+				55E1759C16C5C329009323DA /* Frameworks */,
 				55E1759B16C5C329009323DA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -115,13 +116,11 @@
 				55E175A116C5C329009323DA /* CoreGraphics.framework */,
 			);
 			name = Frameworks;
-			path = ..;
 			sourceTree = "<group>";
 		};
 		55E175A316C5C329009323DA /* Matchismo */ = {
 			isa = PBXGroup;
 			children = (
-				553FBF4C16C61A3E0081E270 /* Model */,
 				55E175B516C5C329009323DA /* MainStoryboard.storyboard */,
 				554E9EE81723B1FB00DE01B5 /* GameResultViewController.h */,
 				554E9EE91723B1FB00DE01B5 /* GameResultViewController.m */,
@@ -129,7 +128,7 @@
 				55E175B916C5C329009323DA /* CardGameViewController.m */,
 				554E9EE51723A97200DE01B5 /* GameResult.h */,
 				554E9EE61723A97200DE01B5 /* GameResult.m */,
-				55E1759C16C5C329009323DA /* Frameworks */,
+				553FBF4C16C61A3E0081E270 /* Model */,
 				55E175A416C5C329009323DA /* Supporting Files */,
 			);
 			path = Matchismo;

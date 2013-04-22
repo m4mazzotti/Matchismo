@@ -32,6 +32,16 @@
     return allGameResults;
 }
 
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        _start = [NSDate date];
+        _end = _start;
+    }
+    return self;
+}
+
 - (id)initFromPropertyList:(id)plist
 {
     self = [self init];
@@ -60,20 +70,9 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-
 - (id)asPropertyList
 {
     return @{START_KEY : self.start, END_KEY : self.end, SCORE_KEY : @(self.score)};
-}
-
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        _start = [NSDate date];
-        _end = _start;
-    }
-    return self;
 }
 
 - (NSTimeInterval)duration
