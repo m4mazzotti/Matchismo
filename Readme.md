@@ -5,5 +5,5 @@
 * ~~Extra Credit~~
 
 #### Assignment #2: Set
-* Required Tasks
+* ~~Required Tasks~~
 * Extra Credit

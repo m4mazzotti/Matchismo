@@ -20,7 +20,7 @@
             for (NSInteger symbol = 0; symbol < [SetCard maxSymbol]; symbol++) {
                 for (NSInteger shading = 0; shading < [SetCard maxShading]; shading++) {
                     for (NSInteger color = 0; color < [SetCard maxColor]; color++) {
-                        SetCard *card = [[SetCard alloc] initSetCardWithNumber:number Symbol:shading Shading:shading AndColor:color];
+                        SetCard *card = [[SetCard alloc] initSetCardWithNumber:number Symbol:symbol Shading:shading AndColor:color];
                         [self addCard:card atTop:YES];
                     }
                 }

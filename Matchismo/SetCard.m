@@ -26,7 +26,7 @@
 
 -(NSString *)contents
 {
-    return [NSString stringWithFormat:@"%i %i %i %i",self.color,self.symbol,self.shading, self.number];
+    return [NSString stringWithFormat:@"%i %i %i %i",self.color, self.symbol, self.shading, self.number];
 }
 
 - (NSInteger)match:(NSArray *)otherCards
