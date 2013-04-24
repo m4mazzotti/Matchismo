@@ -17,23 +17,14 @@
 @property (nonatomic) NSInteger flipCount;
 @property (nonatomic) CardMatchingGame *game;
 @property (nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
-@property (weak, nonatomic) IBOutlet UIButton *dealButton;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *gameModeSegmentedControl;
-@property (nonatomic) NSMutableArray *gameProgress;
 @property (weak, nonatomic) IBOutlet UISlider *gameProgressSlider;
 @end
 
 @implementation CardGameViewController
 
--(NSMutableArray *)gameProgress
-{
-    if (!_gameProgress) _gameProgress = [[NSMutableArray alloc] init];
-    return _gameProgress;
-}
-
 -(CardMatchingGame *)game
 {
-    if (!_game) _game = [[CardMatchingGame alloc] initWithCardCount:self.cardButtons.count usingDeck:[[PlayingCardDeck alloc] init] andGameMode:(self.gameModeSegmentedControl.selectedSegmentIndex + 2)];
+    if (!_game) _game = [[CardMatchingGame alloc] initWithCardCount:self.cardButtons.count usingDeck:[[PlayingCardDeck alloc] init]];
     return _game;
 }
 
@@ -52,16 +43,13 @@
 - (IBAction)dealButtonPressed:(UIButton *)sender
 {
     self.flipCount = 0;
-    
     self.gameProgressSlider.maximumValue = 0;
-    
-    [self.gameProgress removeAllObjects];
     self.game = nil;
     
     [self updateUI];
 }
 
--(void)updateUI
+- (void)updateUI
 {
     for (UIButton *cardButton in self.cardButtons) {
         Card *card = [self.game cardAtIndex:[self.cardButtons indexOfObject:cardButton]];
@@ -73,9 +61,8 @@
         cardButton.alpha = card.isUnplayable ? 0.3 : 1;
     }
     
-    if ([self.gameProgress count]) self.gameProgressSlider.maximumValue += 1;
-    self.statusLabel.text = self.game.status;
-    [self.gameProgress addObject:self.game.status];
+    self.gameProgressSlider.maximumValue = [self.game.gameHistory count] - 1;
+    self.statusLabel.text = [self convertFlipResutToString:[self.game.gameHistory lastObject]];
     
     self.gameProgressSlider.value = self.gameProgressSlider.maximumValue;
     self.statusLabel.alpha = 1;
@@ -92,8 +79,28 @@
 
 - (IBAction)gameProgressValueChanged:(UISlider *)sender
 {
-    self.statusLabel.text = [self.gameProgress objectAtIndex:sender.value];
-    self.statusLabel.alpha = [self.gameProgress count] - 1 == sender.value ? 1 : 0.3;
+    self.statusLabel.text = [self convertFlipResutToString:[self.game.gameHistory objectAtIndex:sender.value]];
+    self.statusLabel.alpha = [self.game.gameHistory count] - 1 == sender.value ? 1 : 0.3;
+}
+
+- (NSString *)convertFlipResutToString:(NSDictionary *)flipResult
+{
+    BOOL mismatch = [flipResult[MISMATCH] boolValue];
+    NSString *firstCard = flipResult[FIRST_CARD];
+    NSString *secondCard = flipResult[SECOND_CARD];
+    NSInteger score = [flipResult[SCORE] intValue];
+    
+    if (mismatch) {
+        return [NSString stringWithFormat:@"%@ and %@ don't match! %d points penalty", firstCard, secondCard, score];
+    } else {
+        if ([flipResult[NEW_GAME] boolValue]) {
+            return @"";
+        } else if (secondCard) {
+            return [NSString stringWithFormat:@"Matched %@ & %@ for %d points", firstCard, secondCard, score];
+        } else {
+            return [NSString stringWithFormat:@"Flipped up %@", firstCard];
+        }
+    }
 }
 
 @end

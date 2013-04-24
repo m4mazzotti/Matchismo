@@ -24,19 +24,30 @@
     return self;
 }
 
+-(NSString *)contents
+{
+    return [NSString stringWithFormat:@"%i %i %i %i",self.color,self.symbol,self.shading, self.number];
+}
+
 - (NSInteger)match:(NSArray *)otherCards
 {
     int score = 0;
     
     if ([otherCards count] == 2) {
-        SetCard *otherCard1 = otherCards[0];
-        SetCard *otherCard2 = otherCards[1];
-        if (self.number == otherCard1.number && self.number == otherCard2.number) score += 2;
-        if (self.symbol == otherCard1.symbol && self.symbol == otherCard2.symbol) score += 2;
-        if (self.shading == otherCard1.shading && self.shading == otherCard2.shading) score += 2;
-        if (self.color == otherCard1.color && self.color == otherCard2.color) score += 2;
+        NSInteger sumSymbol = self.symbol;
+        NSInteger sumNumber = self.number;
+        NSInteger sumShading = self.shading;
+        NSInteger sumColor = self.color;
+        for (SetCard *card in otherCards) {
+            sumSymbol += card.symbol;
+            sumNumber += card.number;
+            sumShading += card.shading;
+            sumColor += card.color;
+        }
+        
+        score = (sumSymbol % 3 == 0 && sumNumber % 3 == 0 && sumShading % 3 == 0 && sumColor % 3 == 0) ? 10 : 0;
     }
-    
+
     return score;
 }
 

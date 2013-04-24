@@ -8,22 +8,20 @@
 
 #import "CardMatchingGame.h"
 
-@interface CardMatchingGame ()
-@property (nonatomic, readwrite) NSInteger score;
-@property (nonatomic, readwrite) NSString *status;
-@property (nonatomic) NSMutableArray *cards;
-@property (nonatomic) NSInteger gameMode;
-@end
-
-@implementation CardMatchingGame
 #define MATCH_BONUS 4
 #define MISMATCH_PENALTY 2
 #define FLIP_SCORE 1
 
-- (NSString *)status
+@interface CardMatchingGame ()
+@end
+
+@implementation CardMatchingGame
+
+- (NSMutableArray *)gameHistory
 {
-    if (!_status) _status = @"";
-    return _status;
+    if (!_gameHistory) _gameHistory = [[NSMutableArray alloc] initWithObjects:@{NEW_GAME : @YES}, nil];
+    
+    return _gameHistory;
 }
 
 -(NSMutableArray *)cards
@@ -32,7 +30,7 @@
     return _cards;
 }
 
--(id)initWithCardCount:(NSUInteger)cardCount usingDeck:(Deck *)deck andGameMode:(NSInteger)gameMode
+-(id)initWithCardCount:(NSUInteger)cardCount usingDeck:(Deck *)deck
 {
     self = [super init];
     
@@ -46,7 +44,6 @@
                 self.cards[i] = card;
             }
         }
-        self.gameMode = gameMode;
     }
     return self;
 }
@@ -58,11 +55,10 @@
 
 -(void)flipCardAtIndex:(NSUInteger)index
 {
+    NSDictionary *flipResult = nil;
     Card *card = [self cardAtIndex:index];
     if (!card.isUnplayable) {
         if (!card.isFaceUp) {
-            self.status = [NSString stringWithFormat:@"Flipped up %@", card.contents];
-            if (self.gameMode == 2) {
                 for (Card *otherCard in self.cards) {
                     if (otherCard.isFaceUp && !otherCard.isUnplayable) {
                         NSUInteger matchScore = [card match:@[otherCard]];
@@ -70,39 +66,19 @@
                             otherCard.unplayable = YES;
                             card.unplayable = YES;
                             self.score += matchScore * MATCH_BONUS;
-                            self.status = [NSString stringWithFormat:@"Matched %@ & %@ for %d points", card.contents, otherCard.contents, matchScore * MATCH_BONUS];
+                            flipResult = @{FIRST_CARD : card.contents, SECOND_CARD : otherCard.contents, MISMATCH : @NO, SCORE : @(matchScore * MATCH_BONUS)};
                         } else {
                             otherCard.faceUp = NO;
                             self.score -= MISMATCH_PENALTY;
-                            self.status = [NSString stringWithFormat:@"%@ and %@ don't match! %d points penalty", card.contents, otherCard.contents, MISMATCH_PENALTY];
+                            flipResult = @{FIRST_CARD : card.contents, SECOND_CARD : otherCard.contents, MISMATCH : @YES, SCORE : @(MISMATCH_PENALTY)};
                         }
                     }
                 }
-            } else if (self.gameMode == 3) {
-                for (Card *otherCard1 in self.cards) {
-                    if (otherCard1.isFaceUp && !otherCard1.isUnplayable) {
-                        for (Card *otherCard2 in self.cards) {
-                            if (otherCard1 == otherCard2) continue;
-                            if (otherCard2.isFaceUp && !otherCard2.isUnplayable) {
-                                NSUInteger matchScore = [card match:@[otherCard1, otherCard2]];
-                                if (matchScore) {
-                                    otherCard1.unplayable = YES;
-                                    otherCard2.unplayable = YES;
-                                    card.unplayable = YES;
-                                    self.score += matchScore * MATCH_BONUS;
-                                    self.status = [NSString stringWithFormat:@"Matched %@ & %@ & %@for %d points", card.contents, otherCard1.contents, otherCard2.contents, matchScore * MATCH_BONUS];
-                                } else {
-                                    otherCard2.faceUp = NO;
-                                    self.score -= MISMATCH_PENALTY;
-                                    self.status = [NSString stringWithFormat:@"%@, %@ and %@ don't match! %d points penalty", card.contents, otherCard1.contents, otherCard2.contents, MISMATCH_PENALTY];
-                                }
-                            }
-                            
-                        }
-                    }
-                }
-            }
+            
+            if (!flipResult) flipResult = @{FIRST_CARD : card.contents, SCORE : @(FLIP_SCORE), MISMATCH : @NO};
             self.score -= FLIP_SCORE;
+            
+            [self.gameHistory addObject:flipResult];
         }
         card.faceUp = !card.isFaceUp;
     }

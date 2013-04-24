@@ -9,11 +9,20 @@
 #import <Foundation/Foundation.h>
 #import "Deck.h"
 
+#define FIRST_CARD @"First Card"
+#define SECOND_CARD @"Second Card"
+#define THIRD_CARD @"Third Card"
+#define SCORE @"Score"
+#define MISMATCH @"Mismatch"
+#define NEW_GAME @"New Game"
+
 @interface CardMatchingGame : NSObject
--(id)initWithCardCount:(NSUInteger)cardCount usingDeck:(Deck *)deck andGameMode:(NSInteger)gameMode;
+-(id)initWithCardCount:(NSUInteger)cardCount usingDeck:(Deck *)deck;
 -(void)flipCardAtIndex:(NSUInteger)index;
 -(Card *)cardAtIndex:(NSUInteger)index;
 
-@property (nonatomic, readonly) NSInteger score;
-@property (nonatomic, readonly) NSString *status;
+@property (nonatomic) NSInteger score;
+@property (nonatomic) NSMutableArray *gameHistory;
+@property (nonatomic) NSMutableArray *cards;
+
 @end
