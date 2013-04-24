@@ -37,7 +37,7 @@
 -(void)setCardButtons:(NSArray *)cardButtons
 {
     _cardButtons = cardButtons;
-    [self updateUI];
+    [self updateCards];
 }
 
 - (IBAction)dealButtonPressed:(UIButton *)sender
@@ -51,6 +51,19 @@
 
 - (void)updateUI
 {
+    [self updateCards];
+    
+    self.gameProgressSlider.maximumValue = [self.game.gameHistory count] - 1;
+    self.statusLabel.attributedText = [self convertFlipResutToString:[self.game.gameHistory lastObject]];
+    
+    self.gameProgressSlider.value = self.gameProgressSlider.maximumValue;
+    self.statusLabel.alpha = 1;
+    
+    self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
+}
+
+- (void)updateCards
+{
     for (UIButton *cardButton in self.cardButtons) {
         Card *card = [self.game cardAtIndex:[self.cardButtons indexOfObject:cardButton]];
         [cardButton setTitle:card.contents forState:UIControlStateSelected];
@@ -60,14 +73,6 @@
         cardButton.enabled = !card.isUnplayable;
         cardButton.alpha = card.isUnplayable ? 0.3 : 1;
     }
-    
-    self.gameProgressSlider.maximumValue = [self.game.gameHistory count] - 1;
-    self.statusLabel.text = [self convertFlipResutToString:[self.game.gameHistory lastObject]];
-    
-    self.gameProgressSlider.value = self.gameProgressSlider.maximumValue;
-    self.statusLabel.alpha = 1;
-    
-    self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
 }
 
 - (IBAction)flipCard:(UIButton *)sender
@@ -79,11 +84,11 @@
 
 - (IBAction)gameProgressValueChanged:(UISlider *)sender
 {
-    self.statusLabel.text = [self convertFlipResutToString:[self.game.gameHistory objectAtIndex:sender.value]];
+    self.statusLabel.attributedText = [self convertFlipResutToString:[self.game.gameHistory objectAtIndex:sender.value]];
     self.statusLabel.alpha = [self.game.gameHistory count] - 1 == sender.value ? 1 : 0.3;
 }
 
-- (NSString *)convertFlipResutToString:(NSDictionary *)flipResult
+- (NSAttributedString *)convertFlipResutToString:(NSDictionary *)flipResult
 {
     BOOL mismatch = [flipResult[MISMATCH] boolValue];
     NSString *firstCard = flipResult[FIRST_CARD];
@@ -91,14 +96,14 @@
     NSInteger score = [flipResult[SCORE] intValue];
     
     if (mismatch) {
-        return [NSString stringWithFormat:@"%@ and %@ don't match! %d points penalty", firstCard, secondCard, score];
+        return [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@ and %@ don't match! %d points penalty", firstCard, secondCard, score]];
     } else {
         if ([flipResult[NEW_GAME] boolValue]) {
-            return @"";
+            return [[NSAttributedString alloc] initWithString:@""];
         } else if (secondCard) {
-            return [NSString stringWithFormat:@"Matched %@ & %@ for %d points", firstCard, secondCard, score];
+            return [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"Matched %@ & %@ for %d points", firstCard, secondCard, score]];
         } else {
-            return [NSString stringWithFormat:@"Flipped up %@", firstCard];
+            return [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"Flipped up %@", firstCard]];
         }
     }
 }

@@ -14,9 +14,6 @@
 @interface SetCardGameViewController ()
 @property (nonatomic) SetCardMatchingGame *game;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
-@property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
-@property (weak, nonatomic) IBOutlet UISlider *gameProgressSlider;
 @end
 
 @implementation SetCardGameViewController
@@ -30,10 +27,10 @@
 -(void)setCardButtons:(NSArray *)cardButtons
 {
     _cardButtons = cardButtons;
-    [self updateUI];
+    [self updateCards];
 }
 
-- (void)updateUI
+- (void)updateCards
 {
     for (UIButton *cardButton in self.cardButtons) {
         Card *card = [self.game cardAtIndex:[self.cardButtons indexOfObject:cardButton]];
@@ -43,14 +40,6 @@
         cardButton.enabled = !card.isUnplayable;
         cardButton.alpha = card.isUnplayable ? 0 : 1;
     }
-
-    self.gameProgressSlider.maximumValue = [self.game.gameHistory count] - 1;
-    self.statusLabel.attributedText = [self convertFlipResutToString:[self.game.gameHistory lastObject]];
-    
-    self.gameProgressSlider.value = self.gameProgressSlider.maximumValue;
-    self.statusLabel.alpha = 1;
-    
-    self.scoreLabel.text = [NSString stringWithFormat:@"Score: %d", self.game.score];
 }
 
 - (NSAttributedString *)convertCardIntoAttributedString:(NSString *)card
@@ -103,12 +92,6 @@
             return result;
         }
     }
-}
-
-- (IBAction)gameProgressValueChanged:(UISlider *)sender
-{
-    self.statusLabel.attributedText = [self convertFlipResutToString:[self.game.gameHistory objectAtIndex:sender.value]];
-    self.statusLabel.alpha = [self.game.gameHistory count] - 1 == sender.value ? 1 : 0.3;
 }
 
 @end
