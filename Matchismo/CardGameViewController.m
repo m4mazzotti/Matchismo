@@ -9,6 +9,7 @@
 #import "CardGameViewController.h"
 #import "PlayingCardDeck.h"
 #import "CardMatchingGame.h"
+#import "GameResult.h"
 
 @interface CardGameViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *flipLabel;
@@ -18,6 +19,7 @@
 @property (nonatomic) CardMatchingGame *game;
 @property (nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 @property (weak, nonatomic) IBOutlet UISlider *gameProgressSlider;
+@property (strong, nonatomic) GameResult *gameResult;
 @end
 
 @implementation CardGameViewController
@@ -26,6 +28,12 @@
 {
     if (!_game) _game = [[CardMatchingGame alloc] initWithCardCount:self.cardButtons.count usingDeck:[[PlayingCardDeck alloc] init]];
     return _game;
+}
+
+- (GameResult *)gameResult
+{
+    if (!_gameResult) _gameResult = [[GameResult alloc] initForGameMode:[self.game isMemberOfClass:[CardMatchingGame class]] ? @"MatchGame" : @"SetGame"];
+    return _gameResult;
 }
 
 -(void)setFlipCount:(NSInteger)flipCount
@@ -45,6 +53,7 @@
     self.flipCount = 0;
     self.gameProgressSlider.maximumValue = 0;
     self.game = nil;
+    self.gameResult = nil;
     
     [self updateUI];
 }
@@ -79,6 +88,7 @@
 {
     [self.game flipCardAtIndex:[self.cardButtons indexOfObject:sender]];
     self.flipCount++;
+    self.gameResult.score = self.game.score;
     [self updateUI];
 }
 

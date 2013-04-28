@@ -35,7 +35,7 @@
     for (UIButton *cardButton in self.cardButtons) {
         Card *card = [self.game cardAtIndex:[self.cardButtons indexOfObject:cardButton]];
         [cardButton setAttributedTitle:[self convertCardIntoAttributedString:card.contents] forState:UIControlStateNormal];
-        [cardButton setBackgroundColor:card.isFaceUp ? [UIColor blackColor] : [UIColor whiteColor]];
+        [cardButton setBackgroundColor:card.isFaceUp ? [UIColor lightGrayColor] : [UIColor whiteColor]];
         cardButton.selected = card.isFaceUp;
         cardButton.enabled = !card.isUnplayable;
         cardButton.alpha = card.isUnplayable ? 0 : 1;
