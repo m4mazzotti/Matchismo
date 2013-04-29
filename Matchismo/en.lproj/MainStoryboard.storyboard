@@ -489,7 +489,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Set" id="46f-D3-wJ2"/>
+                    <tabBarItem key="tabBarItem" title="Set" image="3.png" id="46f-D3-wJ2"/>
                     <connections>
                         <outlet property="flipLabel" destination="0k6-5t-5dz" id="vF4-PE-tLv"/>
                         <outlet property="gameProgressSlider" destination="Rew-n9-wXy" id="Ik0-UI-ck9"/>
@@ -585,7 +585,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Result" id="Asm-1W-6vH"/>
+                    <tabBarItem key="tabBarItem" title="Result" image="4.png" id="Asm-1W-6vH"/>
                     <connections>
                         <outlet property="displayMatch" destination="AHC-bh-s9D" id="pD6-4Y-tfh"/>
                         <outlet property="displaySet" destination="s1T-nj-tdz" id="9v7-IZ-sND"/>
@@ -621,7 +621,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Settings" id="IBP-cv-VUq"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="2.png" id="IBP-cv-VUq"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kI8-B7-Ywn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -936,7 +936,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Match" id="Kmf-3l-BHL"/>
+                    <tabBarItem key="tabBarItem" title="Match" image="1.png" id="Kmf-3l-BHL"/>
                     <connections>
                         <outlet property="flipLabel" destination="E6a-l2-xia" id="l7T-d3-wal"/>
                         <outlet property="gameProgressSlider" destination="bvb-uv-JYO" id="t3H-pQ-VHH"/>
@@ -965,6 +965,12 @@
             <point key="canvasLocation" x="-559" y="-479"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="1.png" width="30" height="30"/>
+        <image name="2.png" width="30" height="30"/>
+        <image name="3.png" width="30" height="30"/>
+        <image name="4.png" width="30" height="30"/>
+    </resources>
     <classes>
         <class className="CardGameViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/CardGameViewController.h"/>
